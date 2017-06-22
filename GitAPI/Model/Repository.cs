@@ -9,6 +9,7 @@ namespace Model
     public class Repository
     {
         public string full_name { get; set; }
+        public string name { get; set; }
         public string description { get; set; }
         public string forks { get; set; }
         public string stargazers_count { get; set; }

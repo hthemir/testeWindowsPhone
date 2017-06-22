@@ -40,14 +40,13 @@ namespace GitAPI.Views
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            fillScreen();
+            string url = "https://api.github.com/search/repositories?q=language:" + e.Parameter.ToString() +"&sort=stars&page=1";
+            fillScreen(url);
         }
 
-        public async void fillScreen()
+        public async void fillScreen(string url)
         {
-            string url = "https://api.github.com/search/repositories?q=language:java&sort=stars&page=1";
-
-            var result = await Client.Get(url);
+            var result = await Client.GetRepositores(url);
             List<Repository> items =  result;
 
             for (int i = 0; i < items.Count; i++)
@@ -68,7 +67,13 @@ namespace GitAPI.Views
 
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(RepositorySearchResult));
+            //Frame.Navigate(typeof(RepositorySearchResult));
+        }
+
+        private void resultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var mySelectedItem = resultList.SelectedItem as Repository;
+            Frame.Navigate(typeof(RepositorySearchResult), mySelectedItem);
         }
     }
 }

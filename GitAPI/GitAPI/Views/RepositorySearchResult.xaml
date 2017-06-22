@@ -18,32 +18,47 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Background="Tomato">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Name="textNameAuthorPR"
-                                   Text="{}"
-                                   FontSize="14"
-                                   FontWeight="Bold"
-                                   Grid.Row="0" />
-                        <TextBlock Name="textTitlePR"
-                                   Text="{}"
-                                   FontSize="14"
-                                   Margin="0,1,0,0"
-                                   Grid.Row="1" />
-                        <TextBlock Name="textdataPR"
-                                   Text="{}"
-                                   FontSize="14"
-                                   Margin="0,1,0,0"
-                                   Grid.Row="2" />
-                        <TextBlock Name="textBodyPR"
-                                   Text="{}"
-                                   FontSize="14"
-                                   Margin="0,1,0,0"
-                                   Grid.Row="3" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="75" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Name="textRepositoriyName"
+                                       Text="{Binding title}"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Grid.Row="0" />
+                            <TextBlock Name="textDescription"
+                                       Text="{Binding updated_at}"
+                                       FontSize="14"
+                                       Margin="0,1,0,0"
+                                       Grid.Row="1" />
+                            <TextBlock Name="textStars"
+                                       Text="{Binding body}"
+                                       FontSize="14"
+                                       Margin="0,1,0,0"
+                                       Grid.Row="2"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Name="authorImage"
+                                   Source="{Binding user.image}"
+                                   Grid.Row="0"/>
+                            <TextBlock Name="textAuthorName"
+                                       Text="{Binding user.login}"
+                                       FontSize="14"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,1,0,0"
+                                       Grid.Row="1" />
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

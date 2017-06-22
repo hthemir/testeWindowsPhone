@@ -15,7 +15,7 @@ namespace Service
     {
         static HttpClient client = new HttpClient();
 
-        public static async Task<List<Repository>> Get(string url)
+        public static async Task<List<Repository>> GetRepositores(string url)
         {
             List<Repository> list = null;
             var response = await client.GetAsync(url);
@@ -24,6 +24,18 @@ namespace Service
                 string responseString = await response.Content.ReadAsStringAsync();
                 var array = JObject.Parse(responseString)["items"];
                 list = JsonConvert.DeserializeObject<List<Repository>>(array.ToString());
+            }
+            return list;
+        }
+
+        public static async Task<List<PullRequest>> GetPullRequests(string url)
+        {
+            List<PullRequest> list = null;
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                list = JsonConvert.DeserializeObject<List<PullRequest>>(responseString);
             }
             return list;
         }
