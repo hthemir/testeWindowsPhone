@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Servico
+namespace Model
 {
-    public class Class1
+    public class Owner
     {
+        public string login { get; set; }
+        public string id { get; set; }
     }
 }

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
 
-  <Identity Name="fa8b079d-730e-4dd4-9965-110b9c477d85"
+  <Identity Name="8ad1e2d8-4289-4565-b2aa-f44d83d009d0"
             Publisher="CN=Hugo"
             Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="fa8b079d-730e-4dd4-9965-110b9c477d85" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="8ad1e2d8-4289-4565-b2aa-f44d83d009d0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>PullRequestChecker</DisplayName>
+    <DisplayName>GitAPI</DisplayName>
     <PublisherDisplayName>Hugo</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -25,12 +25,12 @@
   <Applications>
     <Application Id="App"
         Executable="$targetnametoken$.exe"
-        EntryPoint="PullRequestChecker.App">
+        EntryPoint="GitAPI.App">
         <m3:VisualElements
-            DisplayName="PullRequestChecker"
+            DisplayName="GitAPI"
             Square150x150Logo="Assets\Logo.png"
             Square44x44Logo="Assets\SmallLogo.png"
-            Description="PullRequestChecker"
+            Description="GitAPI"
             ForegroundText="light"
             BackgroundColor="transparent">
             <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png"/>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -15,18 +16,25 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
-namespace PullRequestChecker
+namespace GitAPI
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TelaInicial : Page
+    public sealed partial class MainPage : Page
     {
-        public TelaInicial()
+        public MainPage()
         {
             this.InitializeComponent();
-
+            //conect();
             this.NavigationCacheMode = NavigationCacheMode.Required;
+        }
+
+        public static async void conect()
+        {
+            var client = new HttpClient();
+            var result = await client.GetAsync("https://api.github.com/search/repositories?q=language:java&sort=stars&page=1");
+            string batata = "batata";
         }
 
         /// <summary>
@@ -47,7 +55,7 @@ namespace PullRequestChecker
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ListaRepositorios),txtPesquisa.Text);
+            Frame.Navigate(typeof(Views.LanguageSearchResult), txtPesquisa.Text);
         }
     }
 }
