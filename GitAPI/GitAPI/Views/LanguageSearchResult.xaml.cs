@@ -1,9 +1,12 @@
 ﻿using Model;
 using Service;
 using System.Collections.Generic;
+using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
+using System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace GitAPI.Views
 {
@@ -11,14 +14,30 @@ namespace GitAPI.Views
     {
         int page { get; set; }
         string linguagem { get; set; }
+        bool incall { get; set; }
 
         public LanguageSearchResult()
         {
             this.InitializeComponent();
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            this.Unloaded += Screen_Unloaded;
         }
-        
+
+        private void Screen_Unloaded(object sender, RoutedEventArgs e)
+        {
+            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+        }
+
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            e.Handled = true;
+            if (Frame.CanGoBack)
+                Frame.GoBack();
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //BusyProgressRing.IsActive = true;
             page = 1;
             linguagem = e.Parameter.ToString();
             string url = "https://api.github.com/search/repositories?q=language:" + linguagem +"&sort=stars&page=1";
@@ -34,6 +53,8 @@ namespace GitAPI.Views
             {
                 resultList.Items.Add(items[i]);
             }
+            incall = false;
+            //BusyProgressRing.IsActive = false;
         }
 
         private void resultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -47,6 +68,41 @@ namespace GitAPI.Views
             page += 1;
             string url = "https://api.github.com/search/repositories?q=language:" + linguagem + "&sort=stars&page=" + page;
             fillScreen(url);
+        }
+
+        public static ScrollViewer GetScrollViewer(DependencyObject depOjb)
+        {
+            if (depOjb is ScrollViewer)
+                return depOjb as ScrollViewer;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depOjb); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depOjb, i);
+                var result = GetScrollViewer(child);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+
+        private void resultList_Loaded(object sender, RoutedEventArgs e)
+        {
+            ScrollViewer viewer = GetScrollViewer(this.resultList);
+            viewer.ViewChanged += ListViewChanged;
+        }
+
+        private void ListViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            ScrollViewer view = (ScrollViewer)sender;
+            double progress = view.VerticalOffset / view.ScrollableHeight;
+            //System.Diagnostics.Debug.WriteLine(progress);
+            if (progress > 0.7 && !incall)
+            {
+                incall = true;
+                page += 1;
+                string url = "https://api.github.com/search/repositories?q=language:" + linguagem + "&sort=stars&page=" + page;
+                fillScreen(url);
+            }
+
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Model;
 using Service;
 using System.Collections.Generic;
+using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
+using System;
+using Windows.UI.Xaml;
 
 namespace GitAPI.Views
 {
@@ -12,6 +14,20 @@ namespace GitAPI.Views
         public RepositorySearchResult()
         {
             this.InitializeComponent();
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            this.Unloaded += Screen_Unloaded;
+        }
+
+        private void Screen_Unloaded(object sender, RoutedEventArgs e)
+        {
+            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+        }
+
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            e.Handled = true;
+            if (Frame.CanGoBack)
+                Frame.GoBack();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

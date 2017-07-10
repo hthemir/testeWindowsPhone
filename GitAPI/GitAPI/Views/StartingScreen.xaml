@@ -12,33 +12,42 @@
           VerticalAlignment="Stretch"
           Background="#FF202020">
         <Grid VerticalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
 
-        <TextBlock 
-            Grid.Row="0"
-            Text="Pesquise uma linguagem no GitHub:"
-            TextWrapping="WrapWholeWords"
-            HorizontalAlignment="Center"
-            Margin="20,0,20,30"
-            FontSize="20" />
-        <TextBox 
-            Grid.Row="1"
-            Margin="20,10,20,10" 
-            Height="40"
-            FontSize="20"
-            Name="txtPesquisa"/>
-        <Button 
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            FontSize="20"
-            Content="PESQUISAR" 
-            Height="40"
-            Background="#FF808080"
-            Click="Button_Click"/>
+                    <TextBlock 
+                        Grid.Row="0"
+                        Text="Pesquise uma linguagem no GitHub:"
+                        TextWrapping="WrapWholeWords"
+                        HorizontalAlignment="Center"
+                        Margin="20,0,20,20"
+                        FontSize="20" />
+                    <TextBox 
+                        Grid.Row="1"
+                        Margin="20,10,20,10" 
+                        Height="40"
+                        FontSize="20"
+                        Name="txtPesquisa"/>
+                    <Button 
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        Content="PESQUISAR" 
+                        Height="40"
+                        Background="#FF808080"
+                        Click="Button_Click"/>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

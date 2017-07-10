@@ -31,7 +31,8 @@ namespace Service
         public static async Task<List<PullRequest>> GetPullRequests(string url)
         {
             List<PullRequest> list = null;
-            var response = await client.GetAsync(url);
+            var uri = new Uri(url,UriKind.Absolute);
+            var response = await client.GetAsync(uri);
             if (response.IsSuccessStatusCode)
             {
                 string responseString = await response.Content.ReadAsStringAsync();
