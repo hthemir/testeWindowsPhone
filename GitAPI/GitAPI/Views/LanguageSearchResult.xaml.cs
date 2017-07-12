@@ -20,12 +20,21 @@ namespace GitAPI.Views
         {
             this.InitializeComponent();
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            headerBar.BackButton_Tapped += BackButton_Clicked;
             this.Unloaded += Screen_Unloaded;
+
+        }
+
+        private void BackButton_Clicked(object sender, EventArgs e)
+        {
+            if (Frame.CanGoBack)
+                Frame.GoBack();
         }
 
         private void Screen_Unloaded(object sender, RoutedEventArgs e)
         {
             HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+            headerBar.BackButton_Tapped -= BackButton_Clicked;
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -37,9 +46,10 @@ namespace GitAPI.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //BusyProgressRing.IsActive = true;
+            BusyProgressRing.IsActive = true;
             page = 1;
             linguagem = e.Parameter.ToString();
+            headerBar.Title = linguagem;
             string url = "https://api.github.com/search/repositories?q=language:" + linguagem +"&sort=stars&page=1";
             fillScreen(url);
         }
@@ -54,20 +64,13 @@ namespace GitAPI.Views
                 resultList.Items.Add(items[i]);
             }
             incall = false;
-            //BusyProgressRing.IsActive = false;
+            BusyProgressRing.IsActive = false;
         }
 
         private void resultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var mySelectedItem = resultList.SelectedItem as Repository;
             Frame.Navigate(typeof(RepositorySearchResult), mySelectedItem);
-        }
-
-        private void loadMoreResults_Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            page += 1;
-            string url = "https://api.github.com/search/repositories?q=language:" + linguagem + "&sort=stars&page=" + page;
-            fillScreen(url);
         }
 
         public static ScrollViewer GetScrollViewer(DependencyObject depOjb)
@@ -94,7 +97,6 @@ namespace GitAPI.Views
         {
             ScrollViewer view = (ScrollViewer)sender;
             double progress = view.VerticalOffset / view.ScrollableHeight;
-            //System.Diagnostics.Debug.WriteLine(progress);
             if (progress > 0.7 && !incall)
             {
                 incall = true;
