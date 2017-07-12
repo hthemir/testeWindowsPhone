@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Core;
 
 namespace GitAPI.Views
 {
@@ -57,6 +58,18 @@ namespace GitAPI.Views
                 resultList.Items.Add(items[i]);
             }
             BusyProgressRing.IsActive = false;
+        }
+
+        private async void resultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (resultList.SelectedItem == null)
+                return;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                PullRequest pr = resultList.SelectedItem as PullRequest;
+                Windows.System.Launcher.LaunchUriAsync(new System.Uri(pr.html_url));
+                resultList.SelectedIndex = -1;
+            });
         }
     }
 }

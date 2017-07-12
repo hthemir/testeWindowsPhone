@@ -12,5 +12,6 @@ namespace Model
         public string updated_at { get; set; }
         public string body { get; set; }
         public User user { get; set; }
+        public string html_url { get; set; }
     }
 }

@@ -21,8 +21,8 @@
 
         <ListView Grid.Row="1"
             Name="resultList"
-            Background="#FFFFFF"
-            Foreground="Black">
+            Background="#FFFFFF" Foreground="Black"
+            SelectionChanged="resultList_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter 

@@ -104,9 +104,6 @@
       <DependentUpon>StartingScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Teste.xaml.cs">
-      <DependentUpon>Teste.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -116,8 +113,6 @@
   <ItemGroup>
     <Content Include="Assets\git-fork-512.png" />
     <Content Include="Assets\git-star.png" />
-    <Content Include="Assets\heimer.jpg" />
-    <Content Include="Assets\ic-back-arrow.png" />
     <Content Include="Assets\ic-github.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
@@ -148,10 +143,6 @@
     <Page Include="Views\StartingScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Teste.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
