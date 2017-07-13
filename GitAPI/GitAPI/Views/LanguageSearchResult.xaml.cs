@@ -12,9 +12,8 @@ namespace GitAPI.Views
 {
     public sealed partial class LanguageSearchResult : Page
     {
-        int page { get; set; }
-        string linguagem { get; set; }
         bool incall { get; set; }
+        Persistence persistence = Persistence.getInstance();
 
         public LanguageSearchResult()
         {
@@ -47,11 +46,35 @@ namespace GitAPI.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             BusyProgressRing.IsActive = true;
-            page = 1;
-            linguagem = e.Parameter.ToString();
-            headerBar.Title = linguagem;
-            string url = "https://api.github.com/search/repositories?q=language:" + linguagem +"&sort=stars&page=1";
-            fillScreen(url);
+            headerBar.Title = e.Parameter.ToString();
+            if (e.Parameter.ToString() != persistence.language)
+            {
+                persistence.page = 1;
+                persistence.language = e.Parameter.ToString();
+                string url = "https://api.github.com/search/repositories?q=language:" + persistence.language + "&sort=stars&page=1";
+                fillScreen(url);
+            }
+            else
+            {
+                fillScreen();
+            }
+        }
+
+        public void fillScreen()
+        {
+            resultList.ItemsSource = null;
+            for (int i = 0; i < persistence.resultList.Count; i++)
+                resultList.Items.Add(persistence.resultList[i]);
+            BusyProgressRing.IsActive = false;
+            focusPosition();
+        }
+
+        public void focusPosition()
+        {
+            object item = persistence.resultList[persistence.position];
+            resultList.SelectedItem = item;
+            resultList.UpdateLayout();
+            resultList.ScrollIntoView(item);
         }
 
         public async void fillScreen(string url)
@@ -59,9 +82,16 @@ namespace GitAPI.Views
             var result = await Client.GetRepositores(url);
             List<Repository> items =  result;
 
-            for (int i = 0; i < items.Count; i++)
+            try
             {
-                resultList.Items.Add(items[i]);
+                for (int i = 0; i < items.Count; i++)
+                {
+                    resultList.Items.Add(items[i]);
+                    persistence.resultList.Add(items[i]);
+                }
+            } catch (Exception e)
+            {
+                string erro = e.Message;
             }
             incall = false;
             BusyProgressRing.IsActive = false;
@@ -69,6 +99,7 @@ namespace GitAPI.Views
 
         private void resultList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            persistence.position = resultList.SelectedIndex;
             var mySelectedItem = resultList.SelectedItem as Repository;
             Frame.Navigate(typeof(RepositorySearchResult), mySelectedItem);
         }
@@ -100,8 +131,8 @@ namespace GitAPI.Views
             if (progress > 0.7 && !incall)
             {
                 incall = true;
-                page += 1;
-                string url = "https://api.github.com/search/repositories?q=language:" + linguagem + "&sort=stars&page=" + page;
+                persistence.page += 1;
+                string url = "https://api.github.com/search/repositories?q=language:" + persistence.language + "&sort=stars&page=" + persistence.page;
                 fillScreen(url);
             }
 
